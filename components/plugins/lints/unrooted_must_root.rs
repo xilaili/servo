@@ -150,7 +150,7 @@ impl LateLintPass for UnrootedPass {
             cx: cx,
             in_new_function: in_new_function,
         };
-        visit::walk_expr(&mut visitor, body);
+        //XXX visit::walk_expr(&mut visitor, body);
     }
 }
 
@@ -159,8 +159,8 @@ struct FnDefVisitor<'a, 'b: 'a, 'tcx: 'a+'b> {
     in_new_function: bool,
 }
 
-impl<'a, 'b: 'a, 'tcx: 'a+'b> visit::Visitor<'a> for FnDefVisitor<'a, 'b, 'tcx> {
-    fn visit_expr(&mut self, expr: &'a hir::Expr) {
+impl<'a, 'b, 'tcx> visit::Visitor<'tcx> for FnDefVisitor<'a, 'b, 'tcx> {
+    fn visit_expr(&mut self, expr: &'tcx hir::Expr) {
         let cx = self.cx;
 
         fn require_rooted(cx: &LateContext, in_new_function: bool, subexpr: &hir::Expr) {
@@ -194,7 +194,7 @@ impl<'a, 'b: 'a, 'tcx: 'a+'b> visit::Visitor<'a> for FnDefVisitor<'a, 'b, 'tcx> 
         visit::walk_expr(self, expr);
     }
 
-    fn visit_pat(&mut self, pat: &'a hir::Pat) {
+    fn visit_pat(&mut self, pat: &'tcx hir::Pat) {
         let cx = self.cx;
 
         if let hir::PatKind::Binding(hir::BindingMode::BindByValue(_), _, _, _) = pat.node {
@@ -209,13 +209,16 @@ impl<'a, 'b: 'a, 'tcx: 'a+'b> visit::Visitor<'a> for FnDefVisitor<'a, 'b, 'tcx> 
         visit::walk_pat(self, pat);
     }
 
-    fn visit_fn(&mut self, kind: visit::FnKind<'a>, decl: &'a hir::FnDecl,
-                body: &'a hir::Expr, span: codemap::Span, id: ast::NodeId) {
+    fn visit_fn(&mut self, kind: visit::FnKind<'tcx>, decl: &'tcx hir::FnDecl,
+                body: hir::ExprId, span: codemap::Span, id: ast::NodeId) {
         if let visit::FnKind::Closure(_) = kind {
             visit::walk_fn(self, kind, decl, body, span, id);
         }
     }
 
-    fn visit_foreign_item(&mut self, _: &'a hir::ForeignItem) {}
-    fn visit_ty(&mut self, _: &'a hir::Ty) { }
+    fn visit_foreign_item(&mut self, _: &'tcx hir::ForeignItem) {}
+    fn visit_ty(&mut self, _: &'tcx hir::Ty) { }
+    fn nested_visit_map<'this>(&'this mut self) -> hir::intravisit::NestedVisitorMap<'this, 'tcx> {
+        hir::intravisit::NestedVisitorMap::OnlyBodies(&self.cx.tcx.map)
+    }
 }
