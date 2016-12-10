@@ -17,7 +17,6 @@ use dom::htmlelement::HTMLElement;
 use dom::node::{ChildrenMutation, Node, document_from_node, window_from_node};
 use dom::stylesheet::StyleSheet as DOMStyleSheet;
 use dom::virtualmethods::VirtualMethods;
-use stylesheet_loader::StylesheetLoader;
 use html5ever_atoms::LocalName;
 use script_layout_interface::message::Msg;
 use std::cell::Cell;
@@ -25,6 +24,7 @@ use std::sync::Arc;
 use style::media_queries::parse_media_query_list;
 use style::parser::ParserContextExtraData;
 use style::stylesheets::{Stylesheet, Origin};
+use stylesheet_loader::StylesheetLoader;
 
 #[dom_struct]
 pub struct HTMLStyleElement {

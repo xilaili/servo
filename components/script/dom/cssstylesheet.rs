@@ -21,7 +21,6 @@ pub struct CSSStyleSheet {
     stylesheet: StyleSheet,
     owner: JS<Element>,
     rulelist: MutNullableHeap<JS<CSSRuleList>>,
-    // None => pending load.
     #[ignore_heap_size_of = "Arc"]
     style_stylesheet: Arc<StyleStyleSheet>,
 }

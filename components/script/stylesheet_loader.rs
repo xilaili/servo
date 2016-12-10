@@ -18,8 +18,11 @@ use encoding::all::UTF_8;
 use hyper::header::ContentType;
 use hyper::mime::{Mime, TopLevel, SubLevel};
 use hyper_serde::Serde;
-use ipc_channel::router::ROUTER;
 use ipc_channel::ipc;
+use ipc_channel::router::ROUTER;
+use net_traits::{FetchResponseListener, FetchMetadata, Metadata, NetworkError, ReferrerPolicy};
+use net_traits::request::{CredentialsMode, Destination, RequestInit, Type as RequestType};
+use network_listener::{NetworkListener, PreInvoke};
 use parking_lot::RwLock;
 use script_layout_interface::message::Msg;
 use servo_url::ServoUrl;
@@ -29,9 +32,6 @@ use style::media_queries::MediaList;
 use style::parser::ParserContextExtraData;
 use style::stylesheets::{ImportRule, Stylesheet, Origin};
 use style::stylesheets::StylesheetLoader as StyleStylesheetLoader;
-use net_traits::{FetchResponseListener, FetchMetadata, Metadata, NetworkError, ReferrerPolicy};
-use net_traits::request::{CredentialsMode, Destination, RequestInit, Type as RequestType};
-use network_listener::{NetworkListener, PreInvoke};
 
 pub enum StylesheetContextSource {
     LinkElement { media: MediaList, url: ServoUrl },

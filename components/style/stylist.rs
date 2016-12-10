@@ -109,8 +109,8 @@ fn add_stylesheet_internal(
     rules_source_order: &mut usize,
     state_deps: &mut DependencySet,
     sibling_affecting_selectors: &mut Vec<Selector<SelectorImpl>>,
-    non_common_style_affecting_attributes_selectors: &mut Vec<Selector<SelectorImpl>>) {
-
+    non_common_style_affecting_attributes_selectors: &mut Vec<Selector<SelectorImpl>>)
+{
     stylesheet.effective_rules(device, |rule| {
         match *rule {
             CssRule::Style(ref style_rule) => {
