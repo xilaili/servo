@@ -99,7 +99,7 @@ use style::keyframes::Keyframe;
 use style::media_queries::MediaList;
 use style::properties::PropertyDeclarationBlock;
 use style::selector_parser::{PseudoElement, Snapshot};
-use style::stylesheets::{CssRules, KeyframesRule, MediaRule, NamespaceRule, StyleRule};
+use style::stylesheets::{CssRules, ImportRule, KeyframesRule, MediaRule, NamespaceRule, StyleRule};
 use style::values::specified::Length;
 use style::viewport::ViewportRule;
 use time::Duration;
@@ -497,6 +497,12 @@ unsafe impl JSTraceable for Size2D<i32> {
 }
 
 unsafe impl JSTraceable for Mutex<Option<SharedRt>> {
+    unsafe fn trace(&self, _trc: *mut JSTracer) {
+        // Do nothing.
+    }
+}
+
+unsafe impl JSTraceable for RwLock<ImportRule> {
     unsafe fn trace(&self, _trc: *mut JSTracer) {
         // Do nothing.
     }

@@ -7,7 +7,7 @@ use dom::bindings::codegen::Bindings::DOMTokenListBinding::DOMTokenListBinding::
 use dom::bindings::codegen::Bindings::HTMLLinkElementBinding::HTMLLinkElementBinding::HTMLLinkElementMethods;
 use dom::bindings::inheritance::Castable;
 use dom::bindings::refcounted::Trusted;
-use dom::bindings::reflector::Reflectable;
+use dom::bindings::reflector::DomObject;
 use dom::eventtarget::EventTarget;
 use dom::htmlelement::HTMLElement;
 use dom::htmllinkelement::HTMLLinkElement;

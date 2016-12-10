@@ -15,7 +15,7 @@ impl StylesheetLoader {
 }
 
 impl StyleStylesheetLoader for StylesheetLoader {
-    fn load_stylesheet(&self, import: &Arc<RwLock<ImportRule>>) {
+    fn request_stylesheet(&self, import: &Arc<RwLock<ImportRule>>) {
         // FIXME(emilio): Implement `@import` in stylo.
     }
 }
